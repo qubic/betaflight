@@ -88,7 +88,7 @@ static int crsfWriteString(displayPort_t *displayPort, uint8_t col, uint8_t row,
     if (row >= crsfScreen.rows || col >= crsfScreen.cols) {
         return 0;
     }
-    const size_t truncLen = MIN((int)strlen(s), crsfScreen.cols-col);  // truncate at colCount
+    const size_t truncLen = MIN(strlen(s), (size_t)(crsfScreen.cols - col));  // truncate at colCount
     char *rowStart = &crsfScreen.buffer[row * crsfScreen.cols + col];
     crsfScreen.pendingTransport[row] = memcmp(rowStart, s, truncLen);
     if (crsfScreen.pendingTransport[row]) {
@@ -99,7 +99,7 @@ static int crsfWriteString(displayPort_t *displayPort, uint8_t col, uint8_t row,
 
 static int crsfWriteChar(displayPort_t *displayPort, uint8_t col, uint8_t row, uint8_t attr, uint8_t c)
 {
-    char s[1];
+    char s[2];
     tfp_sprintf(s, "%c", c);
     return crsfWriteString(displayPort, col, row, attr, s);
 }
